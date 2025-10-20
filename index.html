@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three Beautiful Flowers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .title {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 2s ease-in;
+        }
+
+        .flowers-container {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            flex-wrap: wrap;
+            perspective: 1000px;
+        }
+
+        .flower {
+            position: relative;
+            width: 200px;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .flower-pot {
+            width: 80px;
+            height: 60px;
+            background: linear-gradient(45deg, #8B4513, #A0522D);
+            border-radius: 0 0 10px 10px;
+            position: absolute;
+            bottom: 0;
+            z-index: 2;
+        }
+
+        .stem {
+            width: 8px;
+            height: 150px;
+            background: linear-gradient(to top, #228B22, #32CD32);
+            position: absolute;
+            bottom: 60px;
+            z-index: 1;
+        }
+
+        /* Flower 1 - Rose */
+        .rose {
+            position: absolute;
+            /* lowered so the flower visually connects to the stem (stem top is at 210px from bottom) */
+            bottom: 280px;
+            z-index: 3;
+            /* center the rose horizontally inside the parent .flower */
+            left: 31%;
+            transform: translateX(-50%);
+        }
+
+        .rose-petals {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80px;
+            height: 80px;
+            transform: translate(-50%, -50%);
+            animation: bloomRose 3s ease-in-out infinite alternate;
+        }
+
+        .rose-petal {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            background: linear-gradient(45deg, #FF1493, #FF69B4);
+            border-radius: 50% 50% 50% 50%;
+            /* anchor each petal so its inner edge sits at the center of the flower
+               place petals around the center by rotating around the top center */
+            top: 50%;
+            left: 50%;
+            transform-origin: 50% 0%;
+            /* top center */
+        }
+
+        .rose-petal:nth-child(1) {
+            transform: translate(-50%, 0%) rotate(0deg) translateY(-6px);
+        }
+
+        .rose-petal:nth-child(2) {
+            transform: translate(-50%, 0%) rotate(60deg) translateY(-6px);
+        }
+
+        .rose-petal:nth-child(3) {
+            transform: translate(-50%, 0%) rotate(120deg) translateY(-6px);
+        }
+
+        .rose-petal:nth-child(4) {
+            transform: translate(-50%, 0%) rotate(180deg) translateY(-6px);
+        }
+
+        .rose-petal:nth-child(5) {
+            transform: translate(-50%, 0%) rotate(240deg) translateY(-6px);
+        }
+
+        .rose-petal:nth-child(6) {
+            transform: translate(-50%, 0%) rotate(300deg) translateY(-6px);
+        }
+
+        .rose-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: #FFD700;
+            border-radius: 50%;
+            z-index: 4;
+        }
+
+        /* Flower 2 - Sunflower */
+        .sunflower {
+            position: absolute;
+            bottom: 210px;
+            z-index: 3;
+        }
+
+        .sunflower-center {
+            width: 60px;
+            height: 60px;
+            background: #8B4513;
+            border-radius: 50%;
+            position: relative;
+            /* keep the center fixed so only the petals rotate */
+            z-index: 4;
+        }
+
+        .sunflower-petals {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* rotate petals as a group around the center */
+            animation: rotateSunflower 8s linear infinite;
+            transform-origin: center center;
+        }
+
+        .sunflower-petal {
+            position: absolute;
+            width: 80px;
+            height: 30px;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            border-radius: 50% 50% 50% 50%;
+            /* center each petal on the sunflower center and push outward */
+            top: 50%;
+            left: 50%;
+            transform-origin: center center;
+        }
+
+        .sunflower-petal:nth-child(1) {
+            transform: translate(-50%, -50%) rotate(0deg) translateY(-36px);
+        }
+
+        .sunflower-petal:nth-child(2) {
+            transform: translate(-50%, -50%) rotate(30deg) translateY(-36px);
+        }
+
+        .sunflower-petal:nth-child(3) {
+            transform: translate(-50%, -50%) rotate(60deg) translateY(-36px);
+        }
+
+        .sunflower-petal:nth-child(4) {
+            transform: translate(-50%, -50%) rotate(90deg) translateY(-36px);
+        }
+
+        .sunflower-petal:nth-child(5) {
+            transform: translate(-50%, -50%) rotate(120deg) translateY(-36px);
+        }
+
+        .sunflower-petal:nth-child(6) {
+            transform: translate(-50%, -50%) rotate(150deg) translateY(-36px);
+        }
+
+        .sunflower-petal:nth-child(7) {
+            transform: translate(-50%, -50%) rotate(180deg) translateY(-36px);
+        }
+
+        .sunflower-petal:nth-child(8) {
+            transform: translate(-50%, -50%) rotate(210deg) translateY(-36px);
+        }
+
+        .sunflower-petal:nth-child(9) {
+            transform: translate(-50%, -50%) rotate(240deg) translateY(-36px);
+        }
+
+        .sunflower-petal:nth-child(10) {
+            transform: translate(-50%, -50%) rotate(270deg) translateY(-36px);
+        }
+
+        .sunflower-petal:nth-child(11) {
+            transform: translate(-50%, -50%) rotate(300deg) translateY(-36px);
+        }
+
+        .sunflower-petal:nth-child(12) {
+            transform: translate(-50%, -50%) rotate(330deg) translateY(-36px);
+        }
+
+        /* Flower 3 - Tulip */
+        .tulip {
+            position: absolute;
+            bottom: 210px;
+            z-index: 3;
+            animation: sway 4s ease-in-out infinite;
+        }
+
+        .tulip-flower {
+            width: 70px;
+            height: 80px;
+            background: linear-gradient(45deg, #FF6B6B, #FF8E8E);
+            border-radius: 50% 50% 40% 40%;
+            position: relative;
+            transform-origin: bottom center;
+            animation: tulipBloom 2s ease-in-out infinite alternate;
+        }
+
+        .tulip-flower::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 20px;
+            background: #FF6B6B;
+            border-radius: 50% 50% 0 0;
+        }
+
+        .leaf {
+            position: absolute;
+            width: 40px;
+            height: 60px;
+            background: linear-gradient(45deg, #32CD32, #228B22);
+            border-radius: 50% 0 50% 50%;
+            bottom: 150px;
+            z-index: 1;
+        }
+
+        .leaf.left {
+            left: -30px;
+            transform: rotate(-30deg);
+        }
+
+        .leaf.right {
+            right: -30px;
+            transform: rotate(30deg) scaleX(-1);
+        }
+
+        .flower-name {
+            position: absolute;
+            bottom: -40px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Animations */
+        @keyframes bloomRose {
+            0% {
+                transform: scale(0.9) rotate(-5deg);
+            }
+
+            100% {
+                transform: scale(1.1) rotate(5deg);
+            }
+        }
+
+        @keyframes rotateSunflower {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes tulipBloom {
+            0% {
+                transform: scaleY(0.95);
+            }
+
+            100% {
+                transform: scaleY(1.05);
+            }
+        }
+
+        @keyframes sway {
+
+            0%,
+            100% {
+                transform: rotate(-2deg);
+            }
+
+            50% {
+                transform: rotate(2deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Floating particles for background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <h1 class="title">Chúc mừng vui vẻ, xinh đẹp, hạnh phúc, may mắn, lương cao</h1>
+
+        <div class="flowers-container">
+            <!-- Rose -->
+            <div class="flower">
+                <div class="flower-pot"></div>
+                <div class="stem"></div>
+                <!-- <div class="leaf left"></div>
+                <div class="leaf right"></div> -->
+                <div class="rose">
+                    <div class="rose-petals">
+                        <div class="rose-petal"></div>
+                        <div class="rose-petal"></div>
+                        <div class="rose-petal"></div>
+                        <div class="rose-petal"></div>
+                        <div class="rose-petal"></div>
+                        <div class="rose-petal"></div>
+                        <div class="rose-center"></div>
+                    </div>
+                </div>
+                <div class="flower-name">Dung</div>
+            </div>
+
+            <!-- Sunflower -->
+            <div class="flower">
+                <div class="flower-pot"></div>
+                <div class="stem"></div>
+                <!-- <div class="leaf left"></div>
+                <div class="leaf right"></div> -->
+                <div class="sunflower">
+                    <div class="sunflower-petals">
+                        <div class="sunflower-petal"></div>
+                        <div class="sunflower-petal"></div>
+                        <div class="sunflower-petal"></div>
+                        <div class="sunflower-petal"></div>
+                        <div class="sunflower-petal"></div>
+                        <div class="sunflower-petal"></div>
+                        <div class="sunflower-petal"></div>
+                        <div class="sunflower-petal"></div>
+                        <div class="sunflower-petal"></div>
+                        <div class="sunflower-petal"></div>
+                        <div class="sunflower-petal"></div>
+                        <div class="sunflower-petal"></div>
+                    </div>
+                    <div class="sunflower-center"></div>
+                </div>
+                <div class="flower-name">Huyền</div>
+            </div>
+
+            <!-- Tulip -->
+            <div class="flower">
+                <div class="flower-pot"></div>
+                <div class="stem"></div>
+                <!-- <div class="leaf left"></div>
+                <div class="leaf right"></div> -->
+                <div class="tulip">
+                    <div class="tulip-flower"></div>
+                </div>
+                <div class="flower-name">Diễm</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDelay = Math.random() * 6 + 's';
+            particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            particlesContainer.appendChild(particle);
+        }
+    </script>
+</body>
+
+</html>
